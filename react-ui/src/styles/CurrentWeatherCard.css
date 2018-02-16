@@ -1,0 +1,15 @@
+.currentWeatherCard {
+  position: relative;
+  margin-bottom:10px;
+}
+
+.currentWeather {
+  margin: 0 auto;
+  padding-left: 40px;
+}
+
+.currentWeatherIcon {
+  width:100px;
+  height: auto;
+  display:block;
+}

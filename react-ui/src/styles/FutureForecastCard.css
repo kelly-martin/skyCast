@@ -1,0 +1,35 @@
+@media (max-width: 575px) {
+  .futureForecast {
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+  }
+}
+
+.futureForecastCard {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.futureForecastIcon {
+  width: auto;
+  height: auto;
+  max-height: 90px;
+}
+
+.iconDiv {
+  padding-top: 5px;
+  margin: 0 auto;
+  align-items: center;
+  width: 120px;
+  height: 80px;
+}
+
+.futureForecast {
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}

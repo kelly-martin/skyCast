@@ -1,0 +1,9 @@
+svg {
+  height: 400px !important;
+  width: 100% !important;
+}
+
+.historicalWeatherCard {
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
