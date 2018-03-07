@@ -1,9 +1,3 @@
-SkyCast
-              URL: https://skycast-app.herokuapp.com/
-              Author: Kelly Martin
-              Author website: https://kellymartin.me/
-              GitHub: https://github.com/kelly-martin/skycast
-
 OVERALL STRUCTURE
 SkyCast is an app hosted on Heroku and is comprised of a ReactJS UI running on
 a NodeJS server with ExpressJS. I chose this structure for my app because:
