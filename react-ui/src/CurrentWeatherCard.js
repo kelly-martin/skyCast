@@ -28,7 +28,7 @@ class CurrentWeatherCard extends Component {
   }
 
   callForecastApi = async () => {
-    // for local dev 
+    // for local dev
     //const url = 'http://localhost:5000/forecastApi?coords=' + this.props.coords[0] + "," + this.props.coords[1];
     const url = '/forecastApi?coords=' + this.props.coords[0] + "," + this.props.coords[1];
     const response = await fetch(url, {

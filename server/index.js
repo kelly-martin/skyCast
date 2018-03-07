@@ -6,12 +6,17 @@ const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const request = require('request');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 5000;
 
-// intialize persistent storage for user search history
-const storage = require('node-persist');
-storage.initSync({ttl: 1000*60*60*24*365});
+// connect to database
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'op2hpcwcbxb1t4z9.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+  user     : 'k2o18d4ya99uzyhp',
+  password : 'u13ezjlimaom89fl',
+  database : 'w41eapf3atib4eph'
+});
+connection.connect();
 
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
@@ -64,25 +69,33 @@ if (cluster.isMaster) {
   // "/getSearchHistory" is a get request which retrieves the user's search
   // history, given the unique user id provided by the client (browser)
   app.get('/getSearchHistory', function (req, res) {
-    storage.getItem(req.query.userID).then(function(result) {
-      if (result === undefined) {
-        res.send([]);
-      } else {
+    var selectQuery = 'SELECT search FROM `users` WHERE `cookie` = ' + connection.escape(req.query.userID);
+    connection.query(selectQuery, function(err, rows, fields) {
+      if (err) { throw(err); }
+      else {
+        var result = [];
+        for (var i = 0; i < rows.length; i++) {
+          result.unshift(rows[i].search);
+        }
         res.send(result);
       }
     });
   });
 
-  // for parsing data in body of /setSearchHistory requests
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-
   // "/setSearchHistory" is a post request which updates the user's search
-  // history, given the unique user id and the updated search history array
+  // history in the database, given the unique user id and the most recent search
   app.post('/setSearchHistory', function (req, res) {
-    // get body of request
-    var updatedSearchHistory = req.body.history;
-    storage.setItem(req.query.userID, updatedSearchHistory);
+    var search = req.query.search;
+    var cookie = req.query.userID;
+    // delete any records that are duplicates of the most recent search
+    var deleteQuery = 'DELETE FROM `users` WHERE `cookie` = ' + connection.escape(cookie) + ' AND `search` = ' + connection.escape(search);
+    connection.query(deleteQuery, function(err, rows, fields) {
+      if (err) { throw(err); }
+    });
+    var insertQuery = 'INSERT INTO `users` (cookie, search) VALUES (' + connection.escape(cookie) + ', ' + connection.escape(search) + ')';
+    connection.query(insertQuery, function(err, rows, fields) {
+      if (err) { throw(err); }
+    });
   });
 
   app.listen(PORT, function () {

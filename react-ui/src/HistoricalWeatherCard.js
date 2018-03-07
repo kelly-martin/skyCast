@@ -5,7 +5,6 @@ import { VictoryChart, VictoryLine, VictoryLabel, VictoryTheme } from 'victory';
 import './styles/HistoricalWeatherCard.css';
 
 const timeNow = Date.now();
-const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 
 class HistoricalWeatherCard extends Component {
   constructor(props) {
@@ -28,7 +27,7 @@ class HistoricalWeatherCard extends Component {
   }
 
   callForecastApi = async (historicalTime) => {
-    // for local dev 
+    // for local dev
     //const url = 'http://localhost:5000/historicalForecastApi?coords=' + this.props.coords[0] + "," + this.props.coords[1] + "&time=" + historicalTime;
     const url = '/historicalForecastApi?coords=' + this.props.coords[0] + "," + this.props.coords[1] + "&time=" + historicalTime;
     const response = await fetch(url, {

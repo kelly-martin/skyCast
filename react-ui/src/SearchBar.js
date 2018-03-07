@@ -113,8 +113,7 @@ class SearchBar extends Component {
 
     this.updateRecentSearches(searchText);
     // user's search history will be set with updated array of recent searches
-    this.setSearchHistory();
-    // this.getSearchHistory().then(result => recentSearches);
+    this.setSearchHistory(searchText);
     this.populateMenuData(recentSearches);
   }
 
@@ -132,19 +131,16 @@ class SearchBar extends Component {
     }
   }
 
-  setSearchHistory = async () => {
+  setSearchHistory = async (searchText) => {
     // for local dev
-    //const url = 'http://localhost:5000/setSearchHistory?userID=' + this.props.userID;
-    const url = '/setSearchHistory?userID=' + this.props.userID;
+    //const url = 'http://localhost:5000/setSearchHistory?userID=' + this.props.userID + "&search=" + searchText;
+    const url = '/setSearchHistory?userID=' + this.props.userID + "&search=" + searchText;;
     const response = await fetch(url, {
       method: 'POST',
       headers : {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        history: recentSearches
-      })
+      }
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
